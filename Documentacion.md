@@ -283,6 +283,7 @@ alter system set db_flashback_retention_target=120 scope=both;
 
 ## 9. Crear tabla
 
+Crear tabla clientes
 ```
 create table Clientes (
 id_cliente int not null primary key,
@@ -292,11 +293,68 @@ edad_cliente int not null,
 direccion_cliente char(50) not null
 );
 ```
+Crear tabla temporal
+```
+create table Temporal (
+id_cliente int,
+nombre_cliente char(50) ,
+apellido_cliente char(50),
+edad_cliente int,
+direccion_cliente char(50)
+);
+```
+Comandos para cargar archivos
+```
+mkdir bases2
+chmod -R ugo+rwx bases2
+
+sudo docker cp Ctrl.ctl  6f336664e903:/bases2
+sudo docker cp DC.csv  6f336664e903:/bases2
+
+sqlldr bases2/1234@ORCL18 control=Ctrl.ctl, DATA=DC.csv
+```
+Cargar datos a la base real
+```
+INSERT INTO clientes (id_cliente,nombre_cliente,apellido_cliente,edad_cliente,direccion_cliente) 
+SELECT
+	   id_cliente, max(nombre_cliente) as nombre, max (apellido_cliente) as apellido, max (edad_cliente) as edad , max (direccion_cliente) as direccion
+    FROM 
+	   temporal 
+group by id_cliente;
+```
+Obtener errores
+```
+select * from temporal
+minus
+select * from clientes;
+```
+Comandos adicionales
+```
+select * FROM temporal;
+
+select * FROM clientes;
+
+select count(*) FROM temporal;
+
+select count(*) FROM clientes;
+```
+Comandos para la calificacion
+```
+update clientes set nombre_cliente = 'Bases de Datos 2';
+commit;
+
+alter table Clientes enable row movement;
+FLASHBACK TABLE Clientes TO TIMESTAMP (SYSTIMESTAMP - INTERVAL '2' minute);
+commit;
+```
 
 ## 10. Se eliminará la tabla “Clientes” usada en el punto anterior. Posteriormente se hará uso de FLASHBACK TABLE para recuperar la tabla eliminada.
 
 ```
-FLASHBACK TABLE Clientes TO TIMESTAMP (SYSTIMESTAMP - INTERVAL '2' minute);
+DROP TABLE Clientes;
+SELECT * FROM Clientes;
+FLASHBACK TABLE Clientes TO BEFORE DROP;
+SELECT * FROM Clientes;
 ```
 
 ## 11. Cálculo del FRA
