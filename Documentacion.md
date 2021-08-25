@@ -274,3 +274,30 @@ select to_char(begin_time, 'DD-MON-RR HH24:MI') begin_time, to_char(end_time, 'D
 ```
 
 ![](img/inciso7.PNG)
+## 8. Retención de flashback a 2 horas.
+
+```
+ALTER SYSTEM SET DB_FLASHBACK_RETENTION_TARGET=7200;
+ALTER DATABASE FLASHBACK ON;
+```
+
+
+## 9. Crear tabla
+
+```
+create table Clientes (
+id_cliente int not null primary key,
+nombre_cliente char(50) not null,
+apellido_cliente char(50) not null,
+edad_cliente int not null,
+direccion_cliente char(50) not null
+);
+```
+
+## 10.
+
+```
+FLASHBACK TABLE Clientes TO TIMESTAMP (SYSTIMESTAMP - INTERVAL '2' minute);
+```
+
+## 11.
