@@ -208,31 +208,37 @@ SELECT status, filename FROM V$BLOCK_CHANGE_TRACKING;
 Crear un archivo 
 
 ```
-nano backupScri.sh
+nano script.sh
 ```
 
 Ingresando lo siguiente:
 
 ```
+#!/bin/sh
+
 rman target "'/ as sysdba'" << EOF
 
-backup incremental level 1 database;
+backup incremental level 0 database;
 exit;
 EOF
+echo "Termino el back up" >> /home/oracle/backup.log
 exit
+
 
 ```
 
 Copiamos el archivo en el contenedor:
 
 ```
-sudo docker cp backupScript.sh 699:/home/oracle/backupScri.sh
+sudo docker cp script.sh 699:/home/oracle/script.sh
 ```
 
 Se ingresa el backup incremental level 0;
 
 ```
 BACKUP INCREMENTAL LEVEL 0 DATABASE;
+!
+chmod 777 script.sh
 ```
 
 Se ingresa el siguiente comando para que se ejecute todos los dias a las 2 am:
@@ -242,7 +248,7 @@ BEGIN
  DBMS_SCHEDULER.CREATE_JOB (
    job_name            =>  'BASES2_2AM', 
    job_type            =>  'EXECUTABLE',
-   job_action          =>  '/home/oracle/backupScri.sh',
+   job_action          =>  '/home/oracle/script.sh',
    start_date          =>  '24-AUG-21 2.00.00 AM America/Guatemala',
    repeat_interval     =>  'FREQ=DAILY',
    enabled               =>  true,
