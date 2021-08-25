@@ -169,7 +169,9 @@ Para listar backups existentes existe dos maneras:
 2. list backup summary;
 ```
 
-![](img/list-back.png)
+
+
+![](img/list-back.PNG)
 
 ## 5. Habilitar el Block Change Tracking
 
@@ -179,7 +181,7 @@ Desde rman se verifica la ubicación actual de los archivos de datos de la base 
 SELECT NAME FROM V$DATAFILE;
 ```
 
-![](img/inciso5.2.png)
+![](img/inciso5.2.PNG)
 
 Establecer el `DB_CREATE_FILE_DEST` parámetro de inicialización para especificar la ubicación donde se deben almacenar los nuevos archivos de base de datos
 
@@ -199,7 +201,7 @@ Verificar que se realizo bien el cambio:
 SELECT status, filename FROM V$BLOCK_CHANGE_TRACKING;
 ```
 
-![](img/inciso5.png)
+![](img/inciso5.PNG)
 
 ## 6. Configurar los Backups incrementales diario
 
@@ -265,4 +267,4 @@ Determinar el período de retención actual:
 select to_char(begin_time, 'DD-MON-RR HH24:MI') begin_time, to_char(end_time, 'DD-MON-RR HH24:MI') end_time, tuned_undoretention from v$undostat order by end_time;
 ```
 
-![](img/inciso7.png)
+![](img/inciso7.PNG)
