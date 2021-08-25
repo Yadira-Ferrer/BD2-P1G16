@@ -294,10 +294,37 @@ direccion_cliente char(50) not null
 );
 ```
 
-## 10.
+## 10. Se eliminará la tabla “Clientes” usada en el punto anterior. Posteriormente se hará uso de FLASHBACK TABLE para recuperar la tabla eliminada.
 
 ```
 FLASHBACK TABLE Clientes TO TIMESTAMP (SYSTIMESTAMP - INTERVAL '2' minute);
 ```
 
-## 11.
+## 11. Cálculo del FRA
+
+Los cálculos necesarios para obtener los tamaños del FRA, Oracle ofrece una buena fórmula para calcularlo.
+
+n = número de días entre incrementales
+y = retraso de aplicación de ARCHIVELOG en BD de Standby lógica (si aplica)
+
+Disk Quota =
+Size of a copy of database +
+Size of an incremental backup +
+Size of (n+1) days of archived redo logs +
+Size of (y+1) days of foreign archived redo logs (for logical standby) +
+Size of control file +
+Size of an online redo log member * number of log groups +
+Size of flashback logs (based on DB_FLASHBACK_RETENTION_TARGET value)
+
+Ejemplo:
+
+Disk Quota =
+2.2GB COPY OF DB +
+0.1GB INC BACKUP (EST) +
+0.1GB ARCHIVELOG (EST) +
+0.0GB FOREIGN ARCHIVELOG(N/A) +
+0.1GB CONTROLFILE +
+0.6GB REDOLOGS +
+0.6GB FLASHBACK LOGS
+= 3.61 ~ 4GB TOTAL
+
