@@ -1,10 +1,20 @@
-# Practica 1
+Universidad de San Carlos de Guatemala    
+Facultad de ingeniería   
+Escuela de Ciencias y Sistemas    
+Laboratorio de Sistemas de Bases de Datos 2    
+Segundo Semestre 2021    
 
-**Contenido**
-Comandos Docker Oracle
-Habilitar FRA
-Full Backup en modo NOARCHIVELOG
-Habilitar modo ARCHIVELOG
+---
+
+# Grupo 16
+### Datos:
+|             Nombre             |  Carnet   |
+| :----------------------------: | :-------: |
+| Fredy Estuardo Ramírez Moscoso | 201700350 |
+| Davis Francisco Edward Enriquez | 201700972 |
+|  Yadira Yasmin Ferrer Morales  | 201503442 |
+
+# Practica 1
 
 ## Comandos para utilizar Oracle con Docker
 
