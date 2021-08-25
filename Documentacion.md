@@ -277,8 +277,7 @@ select to_char(begin_time, 'DD-MON-RR HH24:MI') begin_time, to_char(end_time, 'D
 ## 8. Retención de flashback a 2 horas.
 
 ```
-ALTER SYSTEM SET DB_FLASHBACK_RETENTION_TARGET=7200;
-ALTER DATABASE FLASHBACK ON;
+alter system set db_flashback_retention_target=120 scope=both;
 ```
 
 
